@@ -1,18 +1,17 @@
-package mypackage;
 
 public class Product {
 
-	int productId;
+	String productId;
 	String productName;
-	int price;
+	double price;
+	int bulkSalesAmt;
 	int discountPercent;
 	int stockLevel;
 	int replenishLevel;
 	int reorderQuantity;
 	Supplier supplier;
 
-	public Product(int productId, String productName, int price, int discountPercent, int stockLevel,
-			int replenishLevel, int reorderQuantity) {
+	public Product(String productId, String productName, double price, int discountPercent, int stockLevel, int replenishLevel, int reorderQuantity) {
 
 		this.productId = productId;
 		this.productName = productName;
@@ -23,11 +22,11 @@ public class Product {
 		this.reorderQuantity = reorderQuantity;
 	}
 
-	public int getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
@@ -39,11 +38,11 @@ public class Product {
 		this.productName = productName;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
@@ -53,6 +52,16 @@ public class Product {
 
 	public void setDiscountPercent(int discountPercent) {
 		this.discountPercent = discountPercent;
+	}
+	
+	public int getBulkSalesAmt()
+	{
+		return bulkSalesAmt;
+	}
+	
+	public void setBulkSalesAmt(int amt)
+	{
+		this.bulkSalesAmt = amt;
 	}
 
 	public int getStockLevel() {
