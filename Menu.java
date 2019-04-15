@@ -6,34 +6,61 @@ public class Menu {
 
 	Scanner sc = new Scanner(System.in);
 
-	public String displayStartUpMenu() {
+	public int displayRegistrationLoginOption() {
+		System.out.println("Enter 1 to login 1  and 2 to register as a cutomer and 3 to register as a employee");
+		return sc.nextInt();
 
-		System.out.println("\r\nPress C if you are a customer and E if an employee");
+	}
 
-		return sc.next();
+	public String[] displayValidateUserMenu() {
+		String[] userDetails = new String[2];
+		System.out.println("Enter user id");
+		userDetails[0] = sc.next();
+		if (userDetails[0].contains("E")) {
+			System.out.println("Enter password");
+			userDetails[1] = sc.next();
+		}
+
+		return userDetails;
+
+	}
+
+	public String[] displayCustomerRegistrationMenu() {
+		String[] registrationDetails = new String[3];
+		System.out.println("Enter customer id");
+		registrationDetails[0] = sc.next();
+		System.out.println("Enter your name");
+		registrationDetails[1] = sc.next();
+		System.out.println("Enter your postcode");
+		registrationDetails[2] = sc.next();
+		return registrationDetails;
+
+	}
+
+	public String[] displayEmployeeRegistrationMenu() {
+		String[] registrationDetails = new String[3];
+		System.out.println("Enter employee id");
+		registrationDetails[0] = sc.next();
+		System.out.println("Enter your desired password");
+		registrationDetails[1] = sc.next();
+		System.out.println("Enter 0 if you are a maneger 1 if salesstaff and 2 if warehousestaff");
+		registrationDetails[2] = sc.next();
+		return registrationDetails;
 
 	}
 
 	public int displayCustomerMenu() {
 
-		System.out.println("\n" + "Welcome\r\n" + "\n" + "Press 1 to display all products\r\n"
-				+ "Press 2 to select a product to view its price\r\n" + "Press 3 to buy products\r\n");
+		System.out.println("\n" + "Welcome\n" + "\n" + "Press 1 to display all products\n"
+				+ "Press 2 to select a product to view its price\n" + "Press 3 to buy products\n");
 		return sc.nextInt();
 
 	}
 
-	public String displayEmployeeMenu() {
-
-		System.out.println("Press M if you are a Manager, W if WareHouseStaff and S for SalesStaff");
-
-		return sc.next();
-
-	}
-
-	public int selectProduct() {
+	public String selectProduct() {
 
 		System.out.println("Enter product id");
-		int id = sc.nextInt();
+		String id = sc.next();
 		return id;
 
 	}
@@ -48,30 +75,32 @@ public class Menu {
 
 	public int displayManagerMenu() {
 
-		System.out.println("\n" + "Welcome\r\n" + "\n"
-				+ "Press 1 to override the standard price for a specific product\r\n"
-				+ "Press 2 to to offer special discounts\r\n"
-				+ "Press 3 to place a purchase order for all items below replenishment level\r\n"
-				+ "Press 4 to generate a sales report\r\n" + "Press 5 to generate a report on fast moving items\r\n"
-				+ "Press 6 to generate a report on sales based on customer address\r\n"
-				+ "Press 7 to generate supply report\r\n" + "Press 8 to list products generating the most revenue\r\n");
+		System.out.println("\n" + "Welcome\n" + "\n" + "Press 1 to override the standard price for a specific product\n"
+				+ "Press 2 to to offer special discounts\n"
+				+ "Press 3 to place a purchase order for all items below replenishment level\n"
+				+ "Press 4 to generate a sales report\n" + "Press 5 to generate a report on fast moving items\n"
+				+ "Press 6 to generate a report on sales based on customer address\n"
+				+ "Press 7 to generate supply report\n" + "Press 8 to list products generating the most revenue\n");
 		return sc.nextInt();
 
 	}
 
-	public int displayManagerScreen(int id) {
+	public int[] displayManagerScreen(int id) {
+		int[] data = null;
 		switch (id) {
 		case 1:
 			System.out.println("Enter the new desired price");
-			int price = sc.nextInt();
-			return price;
+			data[0] = sc.nextInt();
+			return data;
 		case 2:
+			System.out.println("Enter the bulk amount for discount");
+			data[0] = sc.nextInt();
 			System.out.println("Enter the discount percent");
-			int percent = sc.nextInt();
-			return percent;
+			data[1] = sc.nextInt();
+			return data;
 		default:
 			System.out.println("Invalid input");
-			return 0;
+			return data;
 		}
 
 	}
