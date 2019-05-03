@@ -1,8 +1,9 @@
-
+package main;
 public class Product {
 
 	String productId;
 	String productName;
+	String category;
 	double price;
 	int bulkSalesAmt;
 	int discountPercent;
@@ -11,15 +12,19 @@ public class Product {
 	int reorderQuantity;
 	Supplier supplier;
 
-	public Product(String productId, String productName, double price, int discountPercent, int stockLevel, int replenishLevel, int reorderQuantity) {
+	public Product(String productId, String productName, double price, 
+			int bulkSalesAmt, int discountPercent, int stockLevel, 
+			int replenishLevel, int reorderQuantity, Supplier supplier) {
 
 		this.productId = productId;
 		this.productName = productName;
 		this.price = price;
+		this.bulkSalesAmt = bulkSalesAmt;
 		this.discountPercent = discountPercent;
 		this.stockLevel = stockLevel;
 		this.replenishLevel = replenishLevel;
 		this.reorderQuantity = reorderQuantity;
+		this.supplier = supplier;
 	}
 
 	public String getProductId() {
@@ -95,12 +100,17 @@ public class Product {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
+	
+	public String getCategory() {
+		return category;
+	}
 
+	//Use ":" as delimiter between variables
 	@Override
 	public String toString() {
-		return "Product [productId=" + productId + ", productName=" + productName + ", price=" + price
-				+ ", discountPercent=" + discountPercent + ", stockLevel=" + stockLevel + ", replenishLevel="
-				+ replenishLevel + ", reorderQuantity=" + reorderQuantity + ", supplier=" + supplier + "]";
+		return productId + ":" + productName + ":" + price + ":"
+				+bulkSalesAmt + ":" + discountPercent + ":" + stockLevel + ":"
+				+ replenishLevel + ":" + reorderQuantity+ ":" + supplier.getSupplierID();
 	}
 
 }

@@ -1,4 +1,4 @@
-package mypackage;
+package main;
 
 import java.util.*;
 
@@ -6,26 +6,41 @@ public class Menu {
 
 	Scanner sc = new Scanner(System.in);
 
-	public int displayRegistrationLoginOption() {
-		System.out.println("Enter 1 to login 1  and 2 to register as a cutomer and 3 to register as a employee");
+	public int loginMenu() throws Exception {
+		try {
+		System.out.println("----Welcome to BI System----");
+		System.out.println("1. Customer Login");
+		System.out.println("2. Employee Login");
+		System.out.println("3. Print Product Array"); //TESTING REMOVE LATER
+		if (sc.nextInt() > 3) {
+			throw new Exception();
+		}
 		return sc.nextInt();
-
-	}
-
-	public String[] displayValidateUserMenu() {
-		String[] userDetails = new String[2];
-		System.out.println("Enter user id");
-		userDetails[0] = sc.next();
-		if (userDetails[0].contains("E")) {
-			System.out.println("Enter password");
-			userDetails[1] = sc.next();
+		} catch (Exception e) {
+			System.out.println("Please input 1 or 2");
+			return 0;
 		}
 
-		return userDetails;
-
 	}
 
-	public String[] displayCustomerRegistrationMenu() {
+	public String customerLoginPrompt() {
+		String customerDetails;
+		System.out.println("Enter customer id");
+		customerDetails = sc.next();
+		return customerDetails;
+
+	}
+	
+	public String[] employeeLoginPrompt() {
+			String[] employeeDetails = new String[2];
+			System.out.println("Enter employee id");
+			employeeDetails[1] = sc.next();
+			System.out.println("Enter employee password");
+			employeeDetails[2] = sc.next();
+			return employeeDetails;
+	}
+
+	public String[] customerRegistrationMenu() {
 		String[] registrationDetails = new String[3];
 		System.out.println("Enter customer id");
 		registrationDetails[0] = sc.next();
@@ -37,27 +52,32 @@ public class Menu {
 
 	}
 
-	public String[] displayEmployeeRegistrationMenu() {
+	public String[] employeeRegistrationMenu() {
 		String[] registrationDetails = new String[3];
 		System.out.println("Enter employee id");
 		registrationDetails[0] = sc.next();
 		System.out.println("Enter your desired password");
 		registrationDetails[1] = sc.next();
-		System.out.println("Enter 0 if you are a maneger 1 if salesstaff and 2 if warehousestaff");
+		System.out.println("Enter 0 if you are a manager 1 if salesstaff and 2 if warehousestaff");
 		registrationDetails[2] = sc.next();
 		return registrationDetails;
 
 	}
 
-	public int displayCustomerMenu() {
+	public int customerMenu(String name) {
 
-		System.out.println("\n" + "Welcome\n" + "\n" + "Press 1 to display all products\n"
-				+ "Press 2 to select a product to view its price\n" + "Press 3 to buy products\n");
+		System.out.println("\n" + "Welcome " +name +"\n");
+		
+		System.out.println("1. Browse products by category");
+		System.out.println("2. Search by product ID");
+		System.out.println("3. Purchase shopping cart");
+		System.out.println("4. Clear shopping cart");
+		System.out.println("5. Logout");
 		return sc.nextInt();
 
 	}
 
-	public String selectProduct() {
+	public String productIdPrompt() {
 
 		System.out.println("Enter product id");
 		String id = sc.next();
@@ -65,7 +85,7 @@ public class Menu {
 
 	}
 
-	public int displayWareHouseStaffScreen() {
+	public int displayWareHouseStaffMenu() {
 
 		System.out.println("Enter desired stock levels");
 		int stockLevels = sc.nextInt();

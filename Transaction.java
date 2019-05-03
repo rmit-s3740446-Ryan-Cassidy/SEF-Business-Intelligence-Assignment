@@ -1,56 +1,81 @@
-import java.util.Date;
+package main;
 import java.util.ArrayList;
 
 public class Transaction {
 
-	private double totalPrice; 
-	private String transactionID; 
-	private Date transactionDate; 
-	private ArrayList<Product> productsBought = new ArrayList<Product>(); 
+	private String transactionID;
+	private String transactionDate = "date"; //IMPLEMENT DATETIME
+	private ArrayList <LineItem> itemsBought = new ArrayList<>();
+	private double totalPrice = 0;
+	private double discountPrice = 0;
+	private int purchasePoints = 0;
 	
-	public Transaction (double totalPrice, String transactionID, Date transactionDate) { 
-		this.totalPrice = totalPrice; 
-		this.transactionID = transactionID; 
-		this.transactionDate = transactionDate; 
+	//New transaction constructor
+	public Transaction(String transactionID) {
+		this.transactionID = transactionID;
 	}
 	
+	//Database transaction constructor
+	public Transaction(String transactionID, String transactionDate,
+						double totalPrice, double discountPrice, int purchasePoints) {
+		this.transactionID = transactionID;
+		this.transactionDate = transactionDate;
+		this.totalPrice = totalPrice;
+		this.discountPrice = discountPrice;
+		this.purchasePoints = purchasePoints;
+	}
 	
+	//Method for adding items to transaction
+	public void addItem() {
+		
+	}
+	//Method for listing items in transaction
+	public void getTransactionDetails() {
+		
+	}
 	
-	//Getters and Setters 
+	//Method for calculating total price of transaction
+	public void calcTotalPrice() {
+		
+	}
+	
+	//Method for calculating discount points from price of transaction
+	public void calcPurchasePoints() {
+		
+	}
+	
+	public void setDiscountPrice(double discount) {
+		this.discountPrice = totalPrice - discount;
+	}
+	
+	public String getTransactionID() {
+		return transactionID;
+	}
+	
+	public String getDate() {
+		return transactionDate;
+	}
 	
 	public double getTotalPrice() {
 		return totalPrice;
 	}
-
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
-	public String getTransactionID() {
-		return transactionID;
-	}
-
-	public void setTransactionID(String transactionID) {
-		this.transactionID = transactionID;
-	}
-
-	public Date getTransactionDate() {
-		return transactionDate;
-	}
-
-	public void setTransactionDate(Date transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-
-	public ArrayList<Product> getProductsBought() {
-		return productsBought;
-	}
-
-	public void setProductsBought(ArrayList<Product> productsBought) {
-		this.productsBought = productsBought;
+	
+	public double getDiscountPrice() {
+		return discountPrice;
 	}
 	
+	public int getPurchasePoints() {
+		return purchasePoints;
+	}
 	
-				
+	public ArrayList<LineItem> getItemsBought(){
+		return itemsBought;
+	} 
 	
+	//Use ":" as delimiter between variables
+	public String toString() {
+		return transactionID + ":" + transactionDate + ":" 
+				+ totalPrice + ":" + discountPrice + ":"
+				+ purchasePoints;
+	}
 }

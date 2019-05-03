@@ -1,73 +1,32 @@
-import java.util.ArrayList;
+package main;
+
 
 public class SwipeCard {
 
+	private String swipeCardID;
 	private int loyaltyPoints = 0; 
-	private String cardID; 
-	private Customer member; 
-	private ArrayList<Transaction> transactions = new ArrayList<Transaction>(); 
+	private int credit = 0;
 	
-	public SwipeCard (String cardID, int loyaltyPoints) {
-		this.cardID = cardID; 
-		this.loyaltyPoints = loyaltyPoints; 
-		
+	//New customer SwipeCard constructor
+	public SwipeCard(String customerID, String postCode) {
+		swipeCardID = (customerID + "_" + postCode);
 	}
 	
-	public void increasePoints () {
-		double totalPrice = transactions.get(transactions.size()-1).getTotalPrice();
-		if (totalPrice >= 1000) {
-			loyaltyPoints += 1500 ; 
-		} else if (totalPrice >= 800) {
-			loyaltyPoints += 800;
-		} else if (totalPrice >= 500) {
-			loyaltyPoints += 500;
-		} else if (totalPrice >= 300) {
-			loyaltyPoints += 300;
-		} else if (totalPrice >= 100) {
-			loyaltyPoints += 100;
-		} else if (totalPrice >= 80) {
-			loyaltyPoints += 80; 
-		} else if (totalPrice >= 60) {
-			loyaltyPoints += 60;
-		} else if (totalPrice >= 40) {
-			loyaltyPoints += 40;
-		} else if (totalPrice >= 20) {
-			loyaltyPoints += 20;
-		} else if (totalPrice >= 10) {
-			loyaltyPoints += 10;
-		} else {
-			loyaltyPoints += 0;
-		}
+	//Database SwipeCard constructor
+	public SwipeCard(String swipeCardID, int loyaltyPoints, int credit) {
+		this.swipeCardID = swipeCardID;
+		this.loyaltyPoints = loyaltyPoints;
+		this.credit = credit;
 	}
-
-
-//	public int increasePoints () {
-//		double totalPrice = transactions.get(transactions.size()-1).getTotalPrice();
-//		if (totalPrice >= 1000) {
-//			loyaltyPoints += 1500 ; 
-//		} else if (totalPrice >= 800) {
-//			loyaltyPoints += 800;
-//		} else if (totalPrice >= 500) {
-//			loyaltyPoints += 500;
-//		} else if (totalPrice >= 300) {
-//			loyaltyPoints += 300;
-//		} else if (totalPrice >= 100) {
-//			loyaltyPoints += 100;
-//		} else if (totalPrice >= 80) {
-//			loyaltyPoints += 80; 
-//		} else if (totalPrice >= 60) {
-//			loyaltyPoints += 60;
-//		} else if (totalPrice >= 40) {
-//			loyaltyPoints += 40;
-//		} else if (totalPrice >= 20) {
-//			loyaltyPoints += 20;
-//		} else if (totalPrice >= 10) {
-//			loyaltyPoints += 10;
-//		} else {
-//			loyaltyPoints += 0;
-//		}
-//		return loyaltyPoints;
-//	}
+	
+	
+	public void increasePoints() {
+		//REWRITE POINTS METHOD
+	}
+	
+	public String getSwipeCardID() {
+		return swipeCardID;
+	}
 	
 	public int getLoyaltyPoints() {
 		return loyaltyPoints;
@@ -77,35 +36,18 @@ public class SwipeCard {
 	public void setLoyaltyPoints(int loyaltyPoints) {
 		this.loyaltyPoints = loyaltyPoints;
 	}
-
-
-	public String getCardID() {
-		return cardID;
+	
+	public double getCredit() {
+		return credit;
+	}
+	
+	public void setCredit(int credit) {
+		this.credit = credit;
 	}
 
-
-	public void setCardID(String cardID) {
-		this.cardID = cardID;
-	}
-
-
-	public Customer getMember() {
-		return member;
-	}
-
-
-	public void setMember(Customer member) {
-		this.member = member;
-	}
-
-
-	public ArrayList<Transaction> getTransactions() {
-		return transactions;
-	}
-
-
-	public void setTransactions(ArrayList<Transaction> transactions) {
-		this.transactions = transactions;
+	//Use ":" as delimiter between variables
+	public String toString() {
+		return swipeCardID + ":" +loyaltyPoints + ":" + credit;
 	}
 	
 	

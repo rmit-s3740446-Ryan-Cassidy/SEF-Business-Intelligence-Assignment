@@ -1,20 +1,58 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Account {
 	
 	//mock object variables here
 	//Arrays
-	private ArrayList <Employee> eArray;
-	private ArrayList <Customer> cArray;
+	private ArrayList <Employee> eArray = new ArrayList<>();
+	private ArrayList <Customer> cArray = new ArrayList<>();
+	Scanner sc = new Scanner(System.in);
 	
-	public Account() {
-		eArray = new ArrayList<Employee>();
-		cArray = new ArrayList<Customer>();
-	}
 
-	
+//Account menu should be moved to BISystem
+	public void createStaffMenu() {
+		String id, name, password, type="";
+		System.out.print("Enter employee ID: ");
+		id = sc.nextLine();
+		System.out.print("Enter employee name");
+		name = sc.nextLine();
+		System.out.print("Enter employee password");
+		password = sc.nextLine();
+		System.out.println("Employee type:");
+		System.out.println("1. Manager");
+		System.out.println("2. Sales");
+		System.out.println("3. Warehouse");
+		switch(sc.nextInt()) {
+		case 1: type = "Manager";
+		case 2: type = "Sales";
+		case 3: type = "Warehouse";
+		}
+		if (register(id, name, password, type) == false) {
+			System.out.println("Employee already registered");
+		}
+		else {
+			System.out.println("Employee "+ name +" registered");
+		}
+	}
+	//Account menu should be moved to BISystem
+	public void createCustomerMenu() {
+		String id, name, postcode;
+		System.out.print("Enter customer ID: ");
+		id = sc.nextLine();
+		System.out.print("Enter customer name: ");
+		name = sc.nextLine();
+		System.out.print("Enter customer postcode: ");
+		postcode = sc.nextLine();
+		if (register(id, name, postcode) == false) {
+			System.out.println("Customer already registered");
+		}
+		else {
+			System.out.println("Customer "+ name +" registered");
+		}
+	}
 	
 	//register() overloaded method (customer)
 	//Method takes strings, searches array for matching customerId
@@ -38,21 +76,21 @@ public class Account {
 	//Maybe consider employee type as an input string (Manager/Sales/Warehouse)
 	//Add employee to array, return true
 	//Else if employeeId is present, return false
-	public boolean register(String employeeId, String employeePass, int employeeType) {
+	public boolean register(String employeeId, String employeeName, String employeePass, String employeeType) {
 		if (checkArray(employeeId) == true) {
 			return false;
 		}
 		else {
-			if (employeeType == 0) {
-				Manager m = new Manager(employeeId, employeePass);
+			if (employeeType == "Manager") {
+				Manager m = new Manager(employeeId, employeeName, employeePass);
 				eArray.add(m);
 			}
-			else if (employeeType == 1) {
-				SalesStaff s = new SalesStaff(employeeId, employeePass);
+			else if (employeeType == "Sales") {
+				SalesStaff s = new SalesStaff(employeeId, employeeName, employeePass);
 				eArray.add(s);
 			}
-			else if (employeeType == 2) {
-				WarehouseStaff w = new WarehouseStaff(employeeId, employeePass);
+			else if (employeeType == "Warehouse") {
+				WarehouseStaff w = new WarehouseStaff(employeeId, employeeName, employeePass);
 				eArray.add(w);
 			}
 			return true;
@@ -64,7 +102,7 @@ public class Account {
 	//If customerId is there, return it, else return null
 	public Customer validate(String customerId) {
 		for (int i = 0; i < cArray.size(); i++) {
-			if(cArray.get(i).getCustomerId().equals(customerId)) {
+			if(cArray.get(i).getCustomerID().equals(customerId)) {
 				Customer c = cArray.get(i);
 				return c;
 			}
@@ -79,7 +117,7 @@ public class Account {
 	public Employee validate(String employeeId, String employeePass) {
 		for (int i = 0; i < eArray.size(); i++) {
 			if (eArray.get(i).getEmployeeId().equals(employeeId)) {
-				if(eArray.get(i).getPass().equals(employeePass)) {
+				if(eArray.get(i).getEmployeePass().equals(employeePass)) {
 					Employee e = eArray.get(i);
 					return e;
 				}
@@ -95,11 +133,42 @@ public class Account {
 			}
 		}
 		for (int i = 0; i < cArray.size(); i++) {
-			if (cArray.get(i).getCustomerId().contentEquals(userId)) {
+			if (cArray.get(i).getCustomerID().contentEquals(userId)) {
 				return true;
 			}
 		}
 		return false;
+	}
+	//Method for updating customer array with current user (SCRAP THIS)
+	public void updateCustomer(Object currentUser) {
+		for (int i = 0; i < cArray.size(); i++) {
+			if (((Customer) currentUser).getCustomerID() == cArray.get(i).getCustomerID()) {
+				cArray.set(i, ((Customer) currentUser));
+			}
+		}
+		
+	}
+	
+	//Method for updating employee array with current user (SCRAP THIS)
+	public void updateEmployee(Object currentUser) {
+		for (int i = 0; i < eArray.size(); i++) {
+			//Maybe check for instance of (Manager, sales warehouse)
+			if (currentUser instanceof Manager) {
+				if (((Manager) currentUser).getEmployeeId() == eArray.get(i).getEmployeeId()) {
+					eArray.set(i, ((Manager) currentUser));
+				}	
+			}
+			else if (currentUser instanceof SalesStaff) {
+				if (((SalesStaff) currentUser).getEmployeeId() == eArray.get(i).getEmployeeId()) {
+					eArray.set(i, ((SalesStaff) currentUser));
+				}
+			}
+			else if (currentUser instanceof WarehouseStaff) {
+					if (((WarehouseStaff) currentUser).getEmployeeId() == eArray.get(i).getEmployeeId()) {
+						eArray.set(i, ((WarehouseStaff) currentUser));
+				}
+			}
+		}
 	}
 	
 	public ArrayList<Customer> getcArray() {
