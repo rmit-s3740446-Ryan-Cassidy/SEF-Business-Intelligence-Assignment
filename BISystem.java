@@ -1,4 +1,5 @@
 package main;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,8 +33,7 @@ public class BISystem {
 			System.out.println("----Welcome to BISystem----");
 			System.out.println("1. Customer Login");
 			System.out.println("2. Employee Login");
-			System.out.println("3. Print Product Array");
-			System.out.println("4. Save to Database");
+			System.out.println("3. Save to Database");
 		option = sc.nextInt();
 		
 		switch (option) {
@@ -46,10 +46,7 @@ public class BISystem {
 		case 2 : employeeLogin();
 		break;
 		
-		case 3 : printProduct();
-		break;
-		
-		case 4 :storage.updateDBAll(account.getcArray(), account.geteArray(), sArray, pArray);
+		case 3 :storage.updateDBAll(account.getcArray(), account.geteArray(), sArray, pArray);
 		System.out.println("Save to Database attempted");
 		start();
 		break;
@@ -57,15 +54,6 @@ public class BISystem {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}
-	
-	//TESTING REMOVE LATER
-	public void printProduct() {
-		System.out.println("BISystem ARRAY INSTANCE");
-		for (Product products:pArray) {
-			System.out.println(products.toString());
-		}
-		start();
 	}
 	
 	public void customerLogin() {
