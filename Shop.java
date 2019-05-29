@@ -8,7 +8,7 @@ public class Shop {
 	Scanner sc = new Scanner(System.in);
 	ArrayList<Product> pArray;
 	Customer customer;
-	Transaction shoppingCart;
+	Transaction shoppingCart = new Transaction();
 	int option;
 	
 	public Shop(ArrayList <Product> pArray, Customer currentCustomer) {
@@ -115,17 +115,23 @@ public class Shop {
 		case 6: break;
 		}
 		if(category != null) {
-			for (int i = 0; i < pArray.size(); i++) {
-				if (pArray.get(i).getCategory() == category) {
-					categoryList.add(pArray.get(i));
+			for (Product product:pArray) {
+				if(product.getCategory() == category) {
+					categoryList.add(product);
 				}
 			}
+//			for (int i = 0; i < pArray.size(); i++) {
+//				if (pArray.get(i).getCategory() == category) {
+//					categoryList.add(pArray.get(i));
+//				}
+//			}
 			if(!categoryList.isEmpty()) {
 				System.out.println("Select an item");
 			for (int i = 0; i < categoryList.size(); i++) {
 				System.out.println((i+1) + ".:" + categoryList.get(i).getProductName());
 			}
 			option = sc.nextInt();
+			sc.nextLine();
 			productDetailsMenu(categoryList.get(option - 1));
 			}
 			else {
@@ -158,12 +164,13 @@ public class Shop {
 	}
 	
 	public void productDetailsMenu(Product product) {
-		sc.nextLine();
+		try {
 		int quantity;
 		System.out.println("Item: " +product.getProductName());
 		System.out.println("Price: "+product.getPrice());
 		if(product.getBulkSalesAmt() > 0) {
 		System.out.println("Bulk Discount: "+product.getBulkSalesAmt());
+		}
 		System.out.println();
 		System.out.println("Add to cart?");
 		System.out.println("1. Yes");
@@ -184,6 +191,8 @@ public class Shop {
 		case 2:
 			break;	
 		}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	//Method for adding transaction to currentCustomer

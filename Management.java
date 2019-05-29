@@ -99,6 +99,7 @@ public class Management { // vineet added class
 		switch (option) {
 		case 1:
 			String supplierID, name, address, phoneNo;
+			sc.next();
 			System.out.println("Enter supplier name");
 			name = sc.next();
 			System.out.println("Enter supplier address");
@@ -113,6 +114,7 @@ public class Management { // vineet added class
 			}
 			Supplier s = new Supplier(supplierID, name, address, phoneNo);
 			sArray.add(s);
+			System.out.println("Supplier " + name + " added");
 			return;
 
 		case 2:
@@ -132,6 +134,7 @@ public class Management { // vineet added class
 	}
 
 	public Product selectProduct() {
+		sc.nextLine();
 
 		System.out.println("Enter product id");
 		String id = sc.next();
@@ -148,6 +151,7 @@ public class Management { // vineet added class
 	}
 
 	public int manageProductsForWarehouse() {
+		sc.nextLine();
 		System.out.println("Enter desired stock levels");
 		int stockLevels = sc.nextInt();
 		return stockLevels;
@@ -155,6 +159,7 @@ public class Management { // vineet added class
 	}
 
 	public void manageProductsForManager() {
+		sc.nextLine();
 		String date;
 		int quantity, discountPercent, bulkSalesAmt;
 		Product p;
@@ -188,7 +193,7 @@ public class Management { // vineet added class
 			
 		case 4:
 			System.out.print("Enter date: ");
-			date = sc.nextLine();
+			date = sc.next();
 			((Manager) currentEmployee).placeOrder(pArray, date);
 			System.out.println("All stock replenished");
 			break;
@@ -198,7 +203,7 @@ public class Management { // vineet added class
 			System.out.println("Enter the desired stock level: ");
 			quantity = sc.nextInt();
 			System.out.println("Enter date: ");
-			date = sc.nextLine();
+			date = sc.next();
 			((Manager) currentEmployee).replenishStock(p, quantity, date);
 			System.out.println("All " + p.getProductName() + " stock replenished");
 			break;
@@ -220,7 +225,7 @@ public class Management { // vineet added class
 		}
 		else {
 			System.out.print("Enter product name: ");
-			productName = sc.nextLine();
+			productName = sc.next();
 			System.out.println("Select category: ");
 			System.out.println("1. Vegetables");
 			System.out.println("2. Fruit");
@@ -250,9 +255,9 @@ public class Management { // vineet added class
 			wholesaleCost = sc.nextDouble();
 			System.out.print("Enter stock level: ");
 			stockLevel = sc.nextInt();
-			System.out.print("Select a supplier: ");
+			System.out.println("Select a supplier: ");
 			for(int i = 0; i < sArray.size(); i++) {
-				System.out.println(i + " "+ sArray.get(i).getName());
+				System.out.println(i+1 + " "+ sArray.get(i).getName());
 			}
 			option = sc.nextInt();
 			supplier = sArray.get(option - 1);

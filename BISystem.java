@@ -111,12 +111,6 @@ public class BISystem {
 		}
 	}
 	
-	public void logout() {
-		currentCustomer = null;
-		currentEmployee = null;
-		start();
-	}
-	
 	public ArrayList<Product> getPArray(){
 		return pArray;
 	}
