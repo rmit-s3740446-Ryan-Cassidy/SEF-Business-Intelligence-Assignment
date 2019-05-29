@@ -1,173 +1,132 @@
-package mypackage;
+package main;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class BISystem {
+	private ArrayList<Product> pArray = new ArrayList<>();
+	private ArrayList<Supplier> sArray = new ArrayList<>();
+	private Customer currentCustomer = null;
+	private Employee currentEmployee = null;
+	private Scanner sc = new Scanner(System.in);
+	Account account = Account.getInstance();
+	Storage storage = new Storage();
+	private int option;
+	
+	//Main starts here
+	public static void main(String[] args) {
+		BISystem system = new BISystem();
+		system.DB();
+		system.start();
 
-	private ArrayList<Product> product = new ArrayList<>();
-	private int currentProductIndex;
-
-	public ArrayList<Product> getProduct() {
-		return product;
 	}
-
-	public void setProduct(Product product) {
-		this.product.add(product);
-
+	//Method for pulling from DB
+	public void DB() {
+		storage.dbExists();
+		storage.fillArray(account.getcArray(), account.geteArray(), sArray, pArray);
 	}
-
-	public boolean doesProductExist(String id) {
-		boolean ProductExists = false;
-		for (int i = 0; i <= product.size() - 1; i++) {
-			if (product.get(i) != null) {
-				if (product.get(i).getProductId().equals(id)) {
-					ProductExists = true;
-					currentProductIndex = i;
-					break;
-				} else
-
-					ProductExists = false;
+	
+	//Start menu
+	public void start() {
+		do {
+		try {
+			System.out.println("----Welcome to BISystem----");
+			System.out.println("1. Customer Login");
+			System.out.println("2. Employee Login");
+			System.out.println("3. Save to Database");
+			System.out.println("4. Quit");
+		option = sc.nextInt();
+		
+		switch (option) {
+		case 0 : start();
+		break;
+		
+		case 1 : customerLogin();
+		break;
+		
+		case 2 : employeeLogin();
+		break;
+		
+		case 3 :storage.updateDBAll(account.getcArray(), account.geteArray(), sArray, pArray);
+		System.out.println("Database Saved");
+		break;
+		
+		case 4 : break;
+		}
+		} catch (Exception e) {
+			option = 0;
+			System.out.println(e.getMessage());
+			sc.nextLine();
+			continue;
+		}
+		}while (option != 4);
+	}
+	
+	public void customerLogin() {
+		try {
+		String customerDetails;
+		System.out.print("Enter customer id: ");
+		customerDetails = sc.next();
+		currentCustomer = account.validate(customerDetails);
+		Shop shop = new Shop(pArray, currentCustomer);
+		shop.customerMenu();
+		start();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			start();
+		}
+	}
+	
+	public void employeeLogin() {
+		try {
+		String id, pass;
+		System.out.println("Enter employee id");
+		id = sc.next();
+		System.out.println("Enter employee password");
+		pass = sc.next();
+		currentEmployee = account.validate(id, pass);
+		if (currentEmployee != null) {
+			//check employee type
+			if (currentEmployee instanceof Manager) {
+				Management management = new Management(pArray, sArray, currentEmployee);
+				management.managerMenu();
+			}
+			else if (currentEmployee instanceof SalesStaff) {
+				Management management = new Management(pArray, sArray, currentEmployee);
+				management.salesMenu();
+			}
+			else if (currentEmployee instanceof WarehouseStaff) {
+				Management management = new Management(pArray, sArray, currentEmployee);
+				management.warehouseMenu();
 			}
 		}
-		return ProductExists;
-	}
-
-	public void displayAllProducts() {
-
-		for (int i = 0; i <= product.size() - 1; i++) {
-			System.out.println(product.get(i).getProductId() + " " + product.get(i).getProductName());
-		}
-	}
-
-	Menu menu = new Menu();
-	Account account = new Account();
-	boolean registrationSuccessful = false;
-	String[] registrationDetails = new String[3];
-
-	public void bootSystem() {
-		int option = menu.displayRegistrationLoginOption();
-		if (option == 1)
-			login();
-		else if (option == 2)
-			registerCustomer();
-		else
-			registerEmployee();
-
-	}
-
-	public void login() {
-
-		String[] userDetails = menu.displayValidateUserMenu();
-
-		int managerTaskChoice;
-		String selectedProductId = null;
-
-		if (userDetails[1] != null) {
-
-			Employee e = account.validate(userDetails[0], userDetails[1]);
-
-			if (e != null) {
-
-				if (e instanceof Manager) {
-
-					managerTaskChoice = menu.displayManagerMenu();
-
-					if (managerTaskChoice > 0 && managerTaskChoice < 5) {
-
-						selectedProductId = menu.selectProduct();
-					}
-
-					switch (managerTaskChoice) {
-					case 1:
-						if (doesProductExist(selectedProductId)) {
-							((Manager) e).promoPriceOverride(product, selectedProductId,
-									menu.displayManagerScreen(1)[0]);
-						}
-					case 2:
-						if (doesProductExist(selectedProductId)) {
-							((Manager) e).setBulkDiscounts(product, selectedProductId, menu.displayManagerScreen(2)[0],
-									menu.displayManagerScreen(2)[1]);
-						}
-					case 3:
-						if (doesProductExist(selectedProductId)) {
-							((Manager) e).autoPurchaseBelowReplenishmentLvl(product);
-						}
-
-					}
-
-				}
-
-				else if (e instanceof WarehouseStaff) {
-
-					selectedProductId = menu.selectProduct();
-
-					if (doesProductExist(selectedProductId)) {
-						System.out.println("Stock level before:" + product.get(currentProductIndex).getStockLevel());
-						((WarehouseStaff) e).replenishStock(product, selectedProductId,
-								menu.displayWareHouseStaffScreen());
-						System.out.println("Stock level after:" + product.get(currentProductIndex).getStockLevel());
-					}
-
-				}
-
-				else {
-				}
-
-			}
-
-			else {
-
-				registerEmployee();
-			}
-
-		}
-
 		else {
-
-			if (account.validate(userDetails[0]) != null) {
-
-				int customerChoice = menu.displayCustomerMenu();
-				switch (customerChoice) {
-				case 1:
-					displayAllProducts();
-				case 2:
-					doesProductExist(menu.selectProduct());
-					System.out.println("Price is " + product.get(currentProductIndex).getPrice());
-				case 3:
-				}
-
-			}
-
-			else {
-
-				registerCustomer();
-			}
-
+			//return to login
+			System.out.println("Incorrect username or password");
+			return;
 		}
-
-	}
-
-	public void registerEmployee() {
-		registrationDetails = menu.displayEmployeeRegistrationMenu();
-		registrationSuccessful = account.register(registrationDetails[0], registrationDetails[1],
-				registrationDetails[2]);
-
-		if (registrationSuccessful) {
-
-			login();
-
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
 		}
 	}
-
-	public void registerCustomer() {
-		registrationDetails = menu.displayCustomerRegistrationMenu();
-		registrationSuccessful = account.register(registrationDetails[0], registrationDetails[1],
-				registrationDetails[2]);
-
-		if (registrationSuccessful) {
-
-			menu.displayCustomerMenu();
-		}
-
+	
+	public void logout() {
+		currentCustomer = null;
+		currentEmployee = null;
+		start();
 	}
+	
+	public ArrayList<Product> getPArray(){
+		return pArray;
+	}
+	
+	public Customer getCurrentCustomer() {
+		return currentCustomer;
+	}
+	
+	public Employee getCurrentEmployee() {
+		return currentEmployee;
+	}
+
 }

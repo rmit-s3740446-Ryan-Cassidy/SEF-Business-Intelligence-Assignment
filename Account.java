@@ -1,91 +1,105 @@
 package main;
 
+
 import java.util.ArrayList;
 
 public class Account {
 	
-	//mock object variables here
 	//Arrays
-	private ArrayList <Employee> eArray;
-	private ArrayList <Customer> cArray;
+	private ArrayList <Employee> eArray = new ArrayList<>();
+	private ArrayList <Customer> cArray = new ArrayList<>();
+	private static Account instance;
 	
-	public Account() {
-		eArray = new ArrayList<Employee>();
-		cArray = new ArrayList<Customer>();
+	private Account() {
+		
 	}
+	
+	//Singleton Pattern
+		public static Account getInstance() {
+			if (instance == null) {
+				instance = new Account();
+			}
+			return instance;
+		}
 
 	
 	
-	//register() overloaded method (customer)
-	//Method takes strings, searches array for matching customerId
-	//If customerId is not present, create new customer object
-	//Add customer object to array, return true
-	//Else if customerId is present, return false
-	public boolean register(String customerId, String name, String postcode) {
-		if (checkArray(customerId) == true) {
-			return false;
+	//Consider implementing validate method for error checking
+	public void register(String name, String postcode) {
+		Customer c = new Customer(name, postcode);
+		if (cArray.isEmpty()) {
+			c.setCustomerID(String.valueOf(1));
+			cArray.add(c);	
 		}
 		else {
-			Customer c = new Customer(customerId, name, postcode);
+			c.setCustomerID(String.valueOf(cArray.size()+1));
 			cArray.add(c);
-			return true;
 		}
 	}
 	
-	//register() overloaded method (employee)
-	//Method takes strings, searches array for matching employeeId
-	//If employeeId is not present, create new employee object with ID + pass
-	//Maybe consider employee type as an input string (Manager/Sales/Warehouse)
-	//Add employee to array, return true
-	//Else if employeeId is present, return false
-	public boolean register(String employeeId, String employeePass, int employeeType) {
-		if (checkArray(employeeId) == true) {
-			return false;
+	//Consider implementing validate method for error checking
+	public void register(String employeeName, String employeePass, String employeeType) {
+			if (employeeType == "Manager") {
+				Manager m = new Manager(employeeName, employeePass);
+				if(eArray.isEmpty()) {
+					m.setEmployeeID(String.valueOf(1));
+					eArray.add(m);
+				}
+				else {
+					m.setEmployeeID(String.valueOf(eArray.size()+1));
+					eArray.add(m);
+				}
+			}
+		else if (employeeType == "Sales") {
+				SalesStaff s = new SalesStaff(employeeName, employeePass);
+				if(eArray.isEmpty()) {
+					s.setEmployeeID(String.valueOf(1));
+					eArray.add(s);
+				}
+				else {
+					s.setEmployeeID(String.valueOf(eArray.size()+1));
+					eArray.add(s);
+				}
+			}
+			else if (employeeType == "Warehouse") {
+				WarehouseStaff w = new WarehouseStaff(employeeName, employeePass);
+				if (eArray.isEmpty()) {
+					w.setEmployeeID(String.valueOf(1));
+					eArray.add(w);
+				}
+				else {
+					w.setEmployeeID(String.valueOf(eArray.size()+1));
+					eArray.add(w);
+				}
+			}
 		}
-		else {
-			if (employeeType == 0) {
-				Manager m = new Manager(employeeId, employeePass);
-				eArray.add(m);
-			}
-			else if (employeeType == 1) {
-				SalesStaff s = new SalesStaff(employeeId, employeePass);
-				eArray.add(s);
-			}
-			else if (employeeType == 2) {
-				WarehouseStaff w = new WarehouseStaff(employeeId, employeePass);
-				eArray.add(w);
-			}
-			return true;
-		}
-		
-	}
 	//validate() overloaded method (customer)
 	//Method must take strings, search array with getcustomerId
 	//If customerId is there, return it, else return null
-	public Customer validate(String customerId) {
+	public Customer validate(String customerId) throws InvalidCustomerException {
 		for (int i = 0; i < cArray.size(); i++) {
-			if(cArray.get(i).getCustomerId().equals(customerId)) {
+			if(cArray.get(i).getCustomerID().equals(customerId)) {
 				Customer c = cArray.get(i);
 				return c;
 			}
 		}
-	return null;
+	throw new InvalidCustomerException();
 	}
 	
 	//validate() overloaded method (employee)
 	//Method must take strings, search array with getemployeeId
 	//If employeeId is there, check password string with get passwordId
 	//If password is valid then return employee, else return null
-	public Employee validate(String employeeId, String employeePass) {
+	public Employee validate(String employeeId, String employeePass) throws InvalidEmployeeException {
 		for (int i = 0; i < eArray.size(); i++) {
 			if (eArray.get(i).getEmployeeId().equals(employeeId)) {
-				if(eArray.get(i).getPass().equals(employeePass)) {
+				if(eArray.get(i).getEmployeePass().equals(employeePass)) {
 					Employee e = eArray.get(i);
 					return e;
 				}
 			}
 		}
-		return null;
+		throw new InvalidEmployeeException();
 	}
 	//Method for checking array for IDs
 	public boolean checkArray(String userId) {
@@ -95,11 +109,42 @@ public class Account {
 			}
 		}
 		for (int i = 0; i < cArray.size(); i++) {
-			if (cArray.get(i).getCustomerId().contentEquals(userId)) {
+			if (cArray.get(i).getCustomerID().contentEquals(userId)) {
 				return true;
 			}
 		}
 		return false;
+	}
+	//Method for updating customer array with current user (SCRAP THIS)
+	public void updateCustomer(Object currentUser) {
+		for (int i = 0; i < cArray.size(); i++) {
+			if (((Customer) currentUser).getCustomerID() == cArray.get(i).getCustomerID()) {
+				cArray.set(i, ((Customer) currentUser));
+			}
+		}
+		
+	}
+	
+	//Method for updating employee array with current user (SCRAP THIS)
+	public void updateEmployee(Object currentUser) {
+		for (int i = 0; i < eArray.size(); i++) {
+			//Maybe check for instance of (Manager, sales warehouse)
+			if (currentUser instanceof Manager) {
+				if (((Manager) currentUser).getEmployeeId() == eArray.get(i).getEmployeeId()) {
+					eArray.set(i, ((Manager) currentUser));
+				}	
+			}
+			else if (currentUser instanceof SalesStaff) {
+				if (((SalesStaff) currentUser).getEmployeeId() == eArray.get(i).getEmployeeId()) {
+					eArray.set(i, ((SalesStaff) currentUser));
+				}
+			}
+			else if (currentUser instanceof WarehouseStaff) {
+					if (((WarehouseStaff) currentUser).getEmployeeId() == eArray.get(i).getEmployeeId()) {
+						eArray.set(i, ((WarehouseStaff) currentUser));
+				}
+			}
+		}
 	}
 	
 	public ArrayList<Customer> getcArray() {

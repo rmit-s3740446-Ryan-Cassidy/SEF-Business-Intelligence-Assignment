@@ -1,45 +1,39 @@
+package main;
 
-public abstract class Employee
-{
+
+public abstract class Employee {
+
 	private String employeeID;
+	private String employeeName;
 	private String employeePass;
-	private String employeeType;
 	
-	
-	public Employee(String id, String pass, String type)
-	{
-		this.employeeID = id;
-		this.employeePass = pass;
-		this.employeeType = type;
+	//New employee constructor
+	public Employee(String employeeName, String employeePass) {
+		this.employeeName = employeeName;
+		this.employeePass = employeePass;
+	}
+	//DB Constructor
+	public Employee(String employeeID, String employeeName, String employeePass) {
+		this.employeeID = employeeID;
+		this.employeeName = employeeName;
+		this.employeePass = employeePass;
 	}
 	
-	public void setEmployeeID(String id)
-	{
-		this.employeeID = id;
-	}
-	
-	public void setEmployeePass(String pass)
-	{
-		this.employeePass = pass;
-	}
-	
-	public void setEmployeeType(String type)
-	{
-		this.employeeType = type;
-	}
-	
-	public String getEmployeeID()
-	{
+	public String getEmployeeId() {
 		return employeeID;
 	}
 	
-	public String getEmployeePass()
-	{
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	
+	public String getEmployeePass() {
 		return employeePass;
 	}
 	
-	public String getEmployeeType()
-	{
-		return employeeType;
+	public void setEmployeeID(String id) {
+		employeeID = id;
 	}
+	
+	public abstract String toString();
 }
