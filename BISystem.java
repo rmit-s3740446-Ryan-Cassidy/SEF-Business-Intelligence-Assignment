@@ -80,9 +80,9 @@ public class BISystem {
 	public void employeeLogin() {
 		try {
 		String id, pass;
-		System.out.println("Enter employee id");
+		System.out.print("Enter employee id: ");
 		id = sc.next();
-		System.out.println("Enter employee password");
+		System.out.print("Enter employee password: ");
 		pass = sc.next();
 		currentEmployee = account.validate(id, pass);
 		if (currentEmployee != null) {
@@ -91,11 +91,11 @@ public class BISystem {
 				Management management = new Management(pArray, sArray, currentEmployee);
 				management.managerMenu();
 			}
-			else if (currentEmployee instanceof SalesStaff) {
+			if (currentEmployee instanceof SalesStaff) {
 				Management management = new Management(pArray, sArray, currentEmployee);
 				management.salesMenu();
 			}
-			else if (currentEmployee instanceof WarehouseStaff) {
+			if (currentEmployee instanceof WarehouseStaff) {
 				Management management = new Management(pArray, sArray, currentEmployee);
 				management.warehouseMenu();
 			}

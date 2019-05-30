@@ -33,11 +33,11 @@ public class Customer {
 		swipeCard.deductCredit((int)transaction.getTotalPrice() - discount);
 		if (transactions.isEmpty()) {
 			transaction.setTransactionID(customerID + "_" + String.valueOf(1));
-			transactions.add(transaction);
+			transactions.add(0, transaction);
 		}
 		else {
 			transaction.setTransactionID(customerID + "_" + String.valueOf(transactions.size() + 1));
-			transactions.add(transaction);
+			transactions.add(0, transaction);
 		}
 	}
 	
@@ -62,6 +62,30 @@ public class Customer {
 		return transactions;
 	}
 	
+	//Return latest transaction inserted
+	public Transaction getLatestTransaction() {
+		if(transactions.isEmpty()) {
+			return null;
+		}
+		else {
+		return transactions.get(0);
+		}
+	}
+	
+	public double refundTransaction() {
+		double price = transactions.get(0).getTotalPrice();
+		int points = (int) price / 10;
+		swipeCard.setLoyaltyPoints(swipeCard.getLoyaltyPoints() - points);
+		swipeCard.addCredit((int)price);
+		return price;
+	}
+	
+	public double refundLineItem(int i) {
+		double cost = transactions.get(0).getItemsBought().get(i).getCost();
+		transactions.get(0).getItemsBought().remove(i);
+		swipeCard.addCredit((int)cost);
+		return cost;
+	}
 	
 	public void setCustomerID(String id) {
 		customerID = id;

@@ -116,15 +116,10 @@ public class Shop {
 		}
 		if(category != null) {
 			for (Product product:pArray) {
-				if(product.getCategory() == category) {
+				if(product.getCategory().equals(category)) {
 					categoryList.add(product);
 				}
 			}
-//			for (int i = 0; i < pArray.size(); i++) {
-//				if (pArray.get(i).getCategory() == category) {
-//					categoryList.add(pArray.get(i));
-//				}
-//			}
 			if(!categoryList.isEmpty()) {
 				System.out.println("Select an item");
 			for (int i = 0; i < categoryList.size(); i++) {
@@ -144,7 +139,7 @@ public class Shop {
 	public void searchProductID() {
 		try {
 		String id;
-		System.out.println("Enter product ID");
+		System.out.print("Enter product ID: ");
 		id = sc.next();
 		productDetailsMenu(getProduct(id));
 		} catch(Exception e) {
@@ -158,6 +153,7 @@ public class Shop {
 			System.out.println("Cart Empty");
 		}
 		else {
+		System.out.println("Total Price is: "+shoppingCart.getTotalPrice());
 		shoppingCart.getTransactionDetails();
 		sc.nextLine();
 		}
@@ -182,7 +178,6 @@ public class Shop {
 			quantity = sc.nextInt();
 			if(quantity > 0) {
 				addLineItem(product, quantity);
-				System.out.println(quantity + "" + product.getProductName() + " added to cart");
 			}
 			else {
 				System.out.println("Canceled");
@@ -199,7 +194,6 @@ public class Shop {
 	public void purchaseCart() {
 		if(shoppingCart.getTotalPrice() < customer.getSwipeCard().getCredit()) {
 			customer.addTransaction(shoppingCart);
-			shoppingCart.getItemsBought().clear();
 			System.out.println("Shopping cart purchased");	
 		}
 		else {

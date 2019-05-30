@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Transaction {
 
 	private String transactionID;
-	private String transactionDate = "date"; //IMPLEMENT DATETIME
+	private String transactionDate = "date";
 	private ArrayList <LineItem> itemsBought = new ArrayList<>();
 	private double totalPrice = 0;
 	private double discountPrice = 0;
