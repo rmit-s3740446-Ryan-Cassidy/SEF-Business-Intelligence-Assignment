@@ -25,7 +25,7 @@ public class Manager extends Employee {
 		product.getSupplier().addOrder(o);
 	}
 
-	public void promoPriceOverride(Product product, int price) {
+	public void promoPriceOverride(Product product, double price) {
 		product.setPrice(price);
 
 	}
